@@ -7,14 +7,32 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
+from authorization.models import Token
+from information.models import Documents, Security
 
 def document_encrypt(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    username = body['username']
+    token = body['token']
 
+    try:
+        Token.objects.filter(username=username,token=token)
+    except:
+        return HttpResponse(json.dumps({'response':'Token not registered'}), status = 200)
     # Save encrypt information in database
     return HttpResponse(json.dumps({'response':'Documents encrypted saved on the database.'}), status = 200)
 
 def document_raw(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    username = body['username']
+    token = body['token']
 
+    try:
+        Token.objects.filter(username=username,token=token)
+    except:
+        return HttpResponse(json.dumps({'response':'Token not registered'}), status = 200)
     # generate private/public key pair
     key = rsa.generate_private_key(backend=default_backend(), public_exponent=65537, \
     key_size=2048)
@@ -50,9 +68,20 @@ def document_raw(request):
          )
      )
     print(plaintext)    
+    q = Documents(username=username, document=plaintext)
+    q.save()
     return HttpResponse(json.dumps({'response':'Documents correctly unencrypted.'}), status = 200)
 
 def information_request(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    username = body['username']
+    token = body['token']
+    try:
+        Token.objects.filter(username=username,token=token)
+    except:
+        return HttpResponse(json.dumps({'response':'Token not registered'}), status = 200)
+
     # generate private/public key pair
     key = rsa.generate_private_key(backend=default_backend(), public_exponent=65537, \
     key_size=2048)
@@ -68,7 +97,8 @@ def information_request(request):
     print(private_key.decode('utf-8'))
 
     # Save in database
-
+	q = Security(username=,private_key=private_key.decode('utf-8'), public_key=public_key.decode('utf-8'))
+    q.save()
     return HttpResponse(json.dumps({'response':'home_address', 'message':'Please provide the information requested.','public_key':public_key.decode('utf-8')}), status = 200)
 
 
