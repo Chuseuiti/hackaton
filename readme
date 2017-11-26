@@ -3,3 +3,5 @@ pip install django-cors-headers
 pip install secretsharing
 
 # The folder secretsharing contains a modification of the library secretsharing for python3 with the shammir secret sharing algorithm. It is needed to substitute your installation files of secretsharing by the ones of the folder.
+
+# All the requests are GET and all the code is functional
