@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from information import views as view_inf
+from registration import views as view_reg
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^registration/', view_reg.register, name = 'register'),
+    url(r'^authentication/', view_reg.authentication, name = 'authentication'),
+    url(r'^information/', view_inf.information_request, name = 'information_request'),
+    url(r'^document/raw/', view_inf.document_raw, name = 'document_raw'),
+    url(r'^document/encrypt/', view_inf.document_encrypt, name = 'document_encrypt')
 ]
