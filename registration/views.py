@@ -7,10 +7,10 @@ import time
 from registration.models import Authorization, Token
 
 def register(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-    username = body['username']
-    password = body['password']
+    body = request.GET
+
+    username = body.get('username')
+    password = body.get('password')
     # Save into the system
     try:
         q = Authorization(username=username,password=password)
@@ -21,10 +21,10 @@ def register(request):
     return HttpResponse(json.dumps({'response':'User registered into the system.'}), status = 200)
 
 def authentication(request):
-    body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
-    username = body['username']
-    password = body['password']
+    body = request.GET
+
+    username = body.get('username')
+    password = body.get('password')
     try:
         Authorization.objects.filter(username=username,password=password)
     except:
@@ -36,5 +36,5 @@ def authentication(request):
     timestamp = time.time()
     expire = 3600 # seconds
     #Forward to the client
-    q = Token(username=username,token=random_digits,timestamp=timestamp,expire=expire)
+    q = Token(username=username,token=random_digits,timestamp=timestamp,expiration=expire)
     return HttpResponse(json.dumps({'response':random_digits}), status = 200)
