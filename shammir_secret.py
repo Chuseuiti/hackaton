@@ -4,11 +4,11 @@ shares = PlaintextToHexSecretSharer.split_secret("{'address':'Sainte Catherine' 
 
 print('shares:', shares)
 
-print('Recover of information from 1 and 2:' + PlaintextToHexSecretSharer.recover_secret(shares[0:2]))
-print('Recover of information from 1 and 3:' + PlaintextToHexSecretSharer.recover_secret([shares[0],shares[2]]))
-print('Recover of information from 2 and 3:' + PlaintextToHexSecretSharer.recover_secret(shares[1:3]))
+print('Recover information from 1 and 2:' + PlaintextToHexSecretSharer.recover_secret(shares[0:2]))
+print('Recover information from 1 and 3:' + PlaintextToHexSecretSharer.recover_secret([shares[0],shares[2]]))
+print('Recover information from 2 and 3:' + PlaintextToHexSecretSharer.recover_secret(shares[1:3]))
 try:
-    print('Recover of information from 2 and 3:' + PlaintextToHexSecretSharer.recover_secret(shares[1]))
+    print('Recover of information from 2:' + PlaintextToHexSecretSharer.recover_secret(shares[1]))
 except:
     print('Not enough available information')
     
